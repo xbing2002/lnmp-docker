@@ -1,0 +1,25 @@
+FROM php:7.4-fpm
+
+RUN curl 'http://pecl.php.net/get/mongodb-1.4.2.tgz' -o mongodb-1.4.2.tgz \
+    && pecl install mongodb-1.4.2.tgz
+
+
+RUN apt-get update 
+
+RUN apt-get install -y \
+    libmemcached-dev \
+    zlib1g-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+	libzip-dev \
+    && docker-php-ext-install -j$(nproc) pcntl \
+    && docker-php-ext-install -j$(nproc) bcmath \
+    && docker-php-ext-install -j$(nproc) pdo_mysql \
+    && docker-php-ext-install -j$(nproc) zip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd \
+    && pecl install redis \
+    && pecl install memcached \
+    && docker-php-ext-enable redis memcached mongodb \
+    && ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone 
