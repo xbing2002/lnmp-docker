@@ -13,6 +13,7 @@ RUN apt-get install -y \
     libjpeg62-turbo-dev \
     libpng-dev \
 	libzip-dev \
+    npm \
     && docker-php-ext-install -j$(nproc) pcntl \
     && docker-php-ext-install -j$(nproc) bcmath \
     && docker-php-ext-install -j$(nproc) pdo_mysql \
@@ -24,3 +25,6 @@ RUN apt-get install -y \
     && pecl install memcached \
     && docker-php-ext-enable redis memcached mongodb \
     && ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone 
+
+RUN curl -sL https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename composer \
+    && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
