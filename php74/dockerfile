@@ -14,8 +14,8 @@ RUN apt-get install -y \
     openssl \
     libssl-dev 
 	
-RUN curl 'http://pecl.php.net/get/mongodb-1.4.2.tgz' -o mongodb-1.4.2.tgz \
-    && pecl install mongodb-1.4.2.tgz
+RUN curl 'http://pecl.php.net/get/mongodb-1.7.3.tgz' -o mongodb-1.7.3.tgz \
+    && pecl install mongodb-1.7.3.tgz
 
 RUN docker-php-ext-install -j$(nproc) pcntl \
     && docker-php-ext-install -j$(nproc) bcmath \
