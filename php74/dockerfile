@@ -1,7 +1,5 @@
 FROM php:7.4-fpm
 
-RUN curl 'http://pecl.php.net/get/mongodb-1.4.2.tgz' -o mongodb-1.4.2.tgz \
-    && pecl install mongodb-1.4.2.tgz
 
 
 RUN apt-get update 
@@ -13,8 +11,13 @@ RUN apt-get install -y \
     libjpeg62-turbo-dev \
     libpng-dev \
 	libzip-dev \
-    npm \
-    && docker-php-ext-install -j$(nproc) pcntl \
+    openssl \
+    libssl-dev 
+	
+RUN curl 'http://pecl.php.net/get/mongodb-1.4.2.tgz' -o mongodb-1.4.2.tgz \
+    && pecl install mongodb-1.4.2.tgz
+
+RUN docker-php-ext-install -j$(nproc) pcntl \
     && docker-php-ext-install -j$(nproc) bcmath \
     && docker-php-ext-install -j$(nproc) pdo_mysql \
     && docker-php-ext-install -j$(nproc) mysqli \
